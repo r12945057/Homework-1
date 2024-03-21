@@ -5,8 +5,18 @@ pragma solidity ^0.8.0;
 contract StudentV1 {
     // Note: You can declare some state variable
 
+    uint256 private registrationCode = 1000;
+    bool private registered;
+
     function register() external returns (uint256) {
         // TODO: please add your implementaiton here
+
+        if (!registered){
+            registered = true;
+            return 1000;
+        }
+        
+        return 123;
     }
 }
 
@@ -18,6 +28,9 @@ interface IClassroomV2 {
 contract StudentV2 {
     function register() external view returns (uint256) {
         // TODO: please add your implementaiton here
+
+        //if (!(IClassroomV2().isEnrolled())) return 1000;
+        //else return 123; 
     }
 }
 

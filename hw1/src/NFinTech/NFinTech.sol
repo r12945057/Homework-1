@@ -132,21 +132,30 @@ contract NFinTech is IERC721 {
         transferFrom(from, to, tokenId);
         
         if (isContract(to)) {
-            if (IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenId, data) != bytes4(keccak256("onERC721Received(address, address, uint256, bytes)"))){
+            bytes4 result = IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenId, data);
+            if (result != bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))) {
                 revert ZeroAddress();
-            } 
+            }
         }        
-    }
+    }        
+    
 
     function safeTransferFrom(address from, address to, uint256 tokenId) public {
         // TODO: please add your implementaiton here
 
-        //safeTransferFrom(from, to, tokenId, "");
+        transferFrom(from, to, tokenId);
+        
+        if (isContract(to)) {
+            bytes4 result = IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenId, "");
+            if (result != bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"))) {
+                revert ZeroAddress();
+            }
+        }
     }
 
     
     function isContract(address addr) internal view returns (bool) {
-        uint size;
+        uint32 size;
         assembly {
             size := extcodesize(addr)
         }

@@ -28,15 +28,18 @@ interface IClassroomV2 {
 contract StudentV2 {
     function register() external view returns (uint256) {
         // TODO: please add your implementaiton here
-
-        //if (!(IClassroomV2().isEnrolled())) return 1000;
-        //else return 123; 
+        
+        if (!IClassroomV2(msg.sender).isEnrolled()) return 1000;
+        else return 123; 
     }
 }
 
 /* Problem 3 Interface & Contract */
-contract StudentV3 {
+contract StudentV3 {    
     function register() external view returns (uint256) {
         // TODO: please add your implementaiton here
+
+        if (gasleft() < 7000) return 123;
+        else return 1000;     
     }
 }
